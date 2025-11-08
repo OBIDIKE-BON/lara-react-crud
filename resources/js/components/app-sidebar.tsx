@@ -15,6 +15,7 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid, PackageSearch } from 'lucide-react';
 import AppLogo from './app-logo';
+import { index } from '@/routes/products';
 
 const mainNavItems: NavItem[] = [
     {
@@ -24,7 +25,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Products',
-        href: '/products',
+        href: index(),
         icon: PackageSearch,
     },
 ];

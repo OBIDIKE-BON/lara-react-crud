@@ -16,6 +16,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
     Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
+    Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
+    // Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
 });
 
 require __DIR__.'/settings.php';
