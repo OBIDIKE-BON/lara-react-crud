@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { index as indexRoute, store } from '@/routes/products';
+import { edit, index as indexRoute, update } from '@/routes/products';
 import { AlertCircleIcon, MoveLeft } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -12,44 +12,45 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-// interface CreateProps {
-//   // Define any props if needed
-//   name: string;
-//   description: string;
-//   price: string;
-// }
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+};
 
-export default function Create() {
+interface PageProps {
+  product: Product;
+}
 
-  const { data, setData, post, processing, errors } = useForm({
-    name: '',
-    description: '',
-    price: '',
+export default function Edit({ product }: PageProps) {
+
+  const { data, setData, put, processing, errors } = useForm({
+    name: product.name,
+    description: product.description,
+    price: product.price,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(data);
-    post(store().url, {
-      onSuccess: () => {
-        console.log('Product created successfully');
-      },
-      onError: () => {
-        console.log('Error creating product:', errors);
+    put(update(product.id).url, {
+      onError: (error) => {
+        console.log('Error creating product:', error);
       }
     });
   }
 
   const breadcrumbs: BreadcrumbItem[] = [
     {
-      title: 'Create a New Product',
-      href: indexRoute().url,
+      title: 'Edit Product',
+      href: edit(product.id).url,
     },
   ];
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="Create Product" />
+      <Head title="Edit Product" />
       <div className="p-4">
         <Link href={indexRoute().url}>
           <Button
